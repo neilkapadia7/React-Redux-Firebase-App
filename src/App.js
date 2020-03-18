@@ -7,20 +7,25 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import CreateProject from './components/project/CreateProject';
 
+import store from './store';
+import { Provider } from 'react-redux';
+
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const App = () => {
   return (
-    <Router>
-      <Navbar />
-        <Switch>
-          <Route exact path='/' component={Dashboard} />
-          <Route exact path='/project/:id' component={ProjectDetails} />
-          <Route exact path='/signin' component={SignIn} />
-          <Route exact path='/signup' component={SignUp} />
-          <Route exact path='/create' component={CreateProject} />
-        </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Navbar />
+          <Switch>
+            <Route exact path='/' component={Dashboard} />
+            <Route exact path='/project/:id' component={ProjectDetails} />
+            <Route exact path='/signin' component={SignIn} />
+            <Route exact path='/signup' component={SignUp} />
+            <Route exact path='/create' component={CreateProject} />
+          </Switch>
+      </Router>
+    </Provider>
   );
 }
 

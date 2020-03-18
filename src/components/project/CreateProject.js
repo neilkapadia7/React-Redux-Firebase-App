@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
+import {createProject} from '../../actions/projectAtions';
+import {connect} from 'react-redux';
 
-const CreateProject = () => {
+const CreateProject = ({createProject}) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    
+ 
+
     const onSubmit = e => {
         e.preventDefault();
-        console.log({title, content})
+        // console.log({title, content})
+        createProject({title, content});
     }
 
     return (
@@ -29,4 +33,4 @@ const CreateProject = () => {
     )
 }
 
-export default CreateProject;
+export default connect(null, {createProject})(CreateProject);
