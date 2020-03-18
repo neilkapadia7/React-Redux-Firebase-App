@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-export const createProject = (project) => async dispatch => {
+export const createProject = (project) => async (dispatch, {getFirebase, getFireStore}) => {
     try {
         
 
