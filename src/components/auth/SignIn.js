@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 
-const SignIn = () => {
+import {connect} from 'react-redux';
+import {signIn} from '../../actions/authActions'; 
+
+const SignIn = ({authError, signIn}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log({email, password})
+        // console.log({email, password});
+        signIn({email, password});
     }
 
     return (
@@ -23,10 +27,17 @@ const SignIn = () => {
                 </div>
                 <div className='input-field'>
                     <button className='btn pink lighten-1 z-depth-0'>Login</button>
+                    <div className='red-text center'>
+                        {authError ? <p>{authError}</p> : null}
+                    </div>
                 </div>
             </form>
         </div>
     )
 }
 
-export default SignIn;
+const mapStateToProps = state => ({
+    authError: state.auth.authError
+});
+
+export default connect(mapStateToProps, {signIn})(SignIn);
