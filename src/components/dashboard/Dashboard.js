@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Notification from './Notifications';
 import ProjectList from '../project/ProjectList';
 
 import {connect} from 'react-redux';
+import {getProjects} from '../../actions/projectAtions';
 
-const Dashboard = ({projects}) => {
+
+const Dashboard = ({projects, getProjects}) => {
     console.log(projects)
 
+    useEffect(() => {
+        getProjects();
+    }, []);
     return (
         <div className='dashboard container'>
             <div className='row'>
@@ -25,4 +30,4 @@ const mapStateToProps = state => ({
     projects: state.project.projects
 })
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, {getProjects})(Dashboard);

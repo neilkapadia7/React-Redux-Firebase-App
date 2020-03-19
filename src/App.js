@@ -12,9 +12,26 @@ import { Provider } from 'react-redux';
 
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
+import { createFirestoreInstance } from 'redux-firestore';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import firebase from 'firebase/app';
+
 const App = () => {
+
+  const rrConfig = {
+    userProfile: 'users',
+    useFirestoreForProfile: true
+  }
+  const rrfProps = {
+    firebase,
+    config: rrConfig,
+    dispatch: store.dispatch,
+    createFirestoreInstance
+  };
+
   return (
     <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
       <Router>
         <Navbar />
           <Switch>
@@ -25,6 +42,7 @@ const App = () => {
             <Route exact path='/create' component={CreateProject} />
           </Switch>
       </Router>
+      </ReactReduxFirebaseProvider>
     </Provider>
   );
 }
