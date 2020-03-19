@@ -14,7 +14,7 @@ const ProjectDetails = (props) => {
     }
     if(projects) {
         const project = projects ? projects[id] : null;
-
+        console.log('Neil Ye Desk!', project)
         return (
             <div className='container section project-details'>
             <div className='card z-depth-0'>
@@ -24,7 +24,7 @@ const ProjectDetails = (props) => {
                 </div>
                 <div className='card-action grey lighten-4 grey-text'>
                     <div>Posted by {project.authorFirstName} {project.authorLastName}</div>
-                    <div>{project.createdAt}</div>
+                    <div>14th March 2020, 12pm</div>
                 </div>
             </div>
         </div>
