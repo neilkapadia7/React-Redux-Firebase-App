@@ -13,3 +13,13 @@ export const signIn = (credentials) => async dispatch => {
         dispatch({ type: 'LOGIN_ERROR', payload: err });
     }
 }
+
+export const signOut = () => async dispatch =>{
+    try {
+        await firebase.auth().signOut();
+        dispatch({ type: 'SIGNOUT_SUCCESS' })
+    } 
+    catch (err) {
+        console.log(err)
+    }
+}

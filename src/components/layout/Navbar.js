@@ -6,7 +6,8 @@ import {connect} from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({statee}) => {
+    console.log(statee);
     return (
         <nav className='nav-wrapper grey darken-3'>
             <div className='container'>
@@ -21,7 +22,7 @@ const Navbar = () => {
 }
 
 const mapStateToProps = state => ({
-
+    statee: state
 });
 
 export default connect(mapStateToProps)(Navbar);
