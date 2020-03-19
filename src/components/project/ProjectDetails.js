@@ -1,23 +1,49 @@
 import React from 'react';
 
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+
 const ProjectDetails = (props) => {
     const id = props.match.params.id;
 
-    return (
+    const {projects} = props;
 
-        <div className='container section project-details'>
+    if(projects === null) {
+        console.log('No Projects Yet');
+    }
+    if(projects) {
+        const project = projects ? projects[id] : null;
+
+        return (
+            <div className='container section project-details'>
             <div className='card z-depth-0'>
                 <div className='card-content'>
-                    <span className='card-tilte'>Project Title - {id}</span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <span className='card-tilte'>{project.title} - {id}</span>
+                    <p>{project.content}</p>
                 </div>
                 <div className='card-action grey lighten-4 grey-text'>
-                    <div>Posted by Neil Neyatech</div>
-                    <div>18th March, 2am</div>
+                    <div>Posted by {project.authorFirstName} {project.authorLastName}</div>
+                    <div>{project.createdAt}</div>
                 </div>
             </div>
         </div>
+        )
+
+    }
+
+    return (
+        <h4>Loading....</h4>        
     )
 }
 
-export default ProjectDetails;
+const mapStateToProps = state => ({
+    projects: state.firestore.data.projects
+});
+
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+        { collection: 'projects'}
+    ])
+)(ProjectDetails);

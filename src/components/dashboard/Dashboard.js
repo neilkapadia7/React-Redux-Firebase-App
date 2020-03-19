@@ -2,13 +2,13 @@ import React, {useEffect} from 'react';
 import Notification from './Notifications';
 import ProjectList from '../project/ProjectList';
 
+import {compose} from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import {connect} from 'react-redux';
 import {getProjects} from '../../actions/projectAtions';
 
 
 const Dashboard = ({projects, getProjects}) => {
-    console.log(projects)
-
     useEffect(() => {
         getProjects();
     }, []);
@@ -16,7 +16,12 @@ const Dashboard = ({projects, getProjects}) => {
         <div className='dashboard container'>
             <div className='row'>
                 <div className='col s12 m6'>
-                    <ProjectList projects={projects}/>
+                    {projects !== null 
+                        ? 
+                        <ProjectList projects={projects} key={projects.id}/>
+                        : 'Loading...'
+                    }
+                    
                 </div>
                 <div className='col s12 m5 offset-m1'>
                     <Notification />
@@ -30,4 +35,9 @@ const mapStateToProps = state => ({
     projects: state.project.projects
 })
 
-export default connect(mapStateToProps, {getProjects})(Dashboard);
+export default compose(
+    connect(mapStateToProps, {getProjects}),
+    firestoreConnect([
+        { collection: 'projects'}
+    ])
+)(Dashboard);
