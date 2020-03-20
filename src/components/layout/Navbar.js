@@ -6,10 +6,10 @@ import {connect} from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
-const Navbar = ({auth}) => {
-    console.log(auth);
+const Navbar = ({auth, profile}) => {
+    console.log('State Yaha Hai',profile);
 
-    const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />
+    const links = auth.uid ? <SignedInLinks profile={profile} /> : <SignedOutLinks />
 
     return (
         <nav className='nav-wrapper grey darken-3'>
@@ -25,7 +25,8 @@ const Navbar = ({auth}) => {
 }
 
 const mapStateToProps = state => ({
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
 });
 
 export default connect(mapStateToProps)(Navbar);

@@ -20,6 +20,18 @@ export default (state = initialState, action) => {
         case 'SIGNOUT_SUCCESS':
             console.log('Sign Out Success');
             return state;
+        case 'SIGNUP_SUCCESS':
+            console.log('Signup Success');
+            return {
+                ...state,
+                authError: null
+            }
+        case 'SIGNUP_ERROR':
+            console.log('Signup Error');
+            return {
+                ...state,
+                authError: action.payload.message
+            }
         default:
             return state;
     }

@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { Redirect } from 'react-router-dom';
 
+import {signUp} from '../../actions/authActions';
 import {connect} from 'react-redux';
 
-const SignUp = ({auth}) => {
+const SignUp = ({auth, authError, signUp}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -11,7 +12,8 @@ const SignUp = ({auth}) => {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log({firstName, lastName, email, password})
+        // console.log({firstName, lastName, email, password})
+        signUp({firstName, lastName, email, password});
     }
 
     //Protected Route
@@ -39,6 +41,9 @@ const SignUp = ({auth}) => {
                 </div>
                 <div className='input-field'>
                     <button className='btn pink lighten-1 z-depth-0'>Sign Up</button>
+                    <div className='red-text center'>
+                        { authError ? <p>{authError}</p> : null}
+                    </div>
                 </div>
             </form>
         </div>
@@ -46,7 +51,8 @@ const SignUp = ({auth}) => {
 }
 
 const mapStateToProps = state => ({
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    authError: state.auth.authError
 });
 
-export default connect(mapStateToProps, {})(SignUp);
+export default connect(mapStateToProps, {signUp})(SignUp);
