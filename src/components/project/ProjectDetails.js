@@ -1,13 +1,19 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 
+
 const ProjectDetails = (props) => {
     const id = props.match.params.id;
 
-    const {projects} = props;
+    const {auth,projects} = props;
+
+    //Protected Route
+    if(!auth.uid) return <Redirect to='/signin' />
+
 
     if(projects === null) {
         console.log('No Projects Yet');
@@ -38,7 +44,8 @@ const ProjectDetails = (props) => {
 }
 
 const mapStateToProps = state => ({
-    projects: state.firestore.data.projects
+    projects: state.firestore.data.projects,
+    auth: state.firebase.auth
 });
 
 export default compose(

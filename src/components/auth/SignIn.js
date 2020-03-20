@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
+import { Redirect } from 'react-router-dom';
 
 import {connect} from 'react-redux';
 import {signIn} from '../../actions/authActions'; 
 
-const SignIn = ({authError, signIn}) => {
+const SignIn = ({auth, authError, signIn}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -12,6 +13,9 @@ const SignIn = ({authError, signIn}) => {
         // console.log({email, password});
         signIn({email, password});
     }
+
+     //Protected Route
+     if(auth.uid) return <Redirect to='/' />
 
     return (
         <div className='container'>
@@ -37,7 +41,8 @@ const SignIn = ({authError, signIn}) => {
 }
 
 const mapStateToProps = state => ({
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    auth: state.firebase.auth
 });
 
 export default connect(mapStateToProps, {signIn})(SignIn);

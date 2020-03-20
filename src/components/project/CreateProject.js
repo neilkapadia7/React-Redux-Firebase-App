@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import {createProject} from '../../actions/projectAtions';
 import {connect} from 'react-redux';
 import M from 'materialize-css/dist/js/materialize.min.js';
+import { Redirect } from 'react-router-dom';
 
-const CreateProject = ({createProject}) => {
+const CreateProject = ({auth, createProject}) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
- 
+    
+     //Protected Route
+    if(!auth.uid) return <Redirect to='/signin' />
 
     const onSubmit = e => {
         e.preventDefault();
@@ -40,4 +43,8 @@ const CreateProject = ({createProject}) => {
     )
 }
 
-export default connect(null, {createProject})(CreateProject);
+const mapStateToProps = state => ({
+    auth: state.firebase.auth
+});
+
+export default connect(mapStateToProps, {createProject})(CreateProject);

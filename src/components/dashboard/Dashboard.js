@@ -6,12 +6,17 @@ import {compose} from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import {connect} from 'react-redux';
 import {getProjects} from '../../actions/projectAtions';
+import { Redirect } from 'react-router-dom';
 
 
-const Dashboard = ({projects, getProjects}) => {
+const Dashboard = ({auth, projects, getProjects}) => {
     useEffect(() => {
         getProjects();
     }, []);
+
+    //Protected Route
+    if(!auth.uid) return <Redirect to='/signin' />
+
     return (
         <div className='dashboard container'>
             <div className='row'>
@@ -32,7 +37,8 @@ const Dashboard = ({projects, getProjects}) => {
 }
 
 const mapStateToProps = state => ({
-    projects: state.project.projects
+    projects: state.project.projects,
+    auth: state.firebase.auth
 })
 
 export default compose(
