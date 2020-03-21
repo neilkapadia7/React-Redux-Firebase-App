@@ -9,7 +9,7 @@ import {getProjects} from '../../actions/projectAtions';
 import { Redirect } from 'react-router-dom';
 
 
-const Dashboard = ({auth, projects, getProjects}) => {
+const Dashboard = ({auth, projects, notifications, getProjects}) => {
     useEffect(() => {
         getProjects();
     }, []);
@@ -29,7 +29,7 @@ const Dashboard = ({auth, projects, getProjects}) => {
                     
                 </div>
                 <div className='col s12 m5 offset-m1'>
-                    <Notification />
+                    <Notification notifications={notifications}/>
                 </div>
             </div>
         </div>
@@ -38,12 +38,14 @@ const Dashboard = ({auth, projects, getProjects}) => {
 
 const mapStateToProps = state => ({
     projects: state.project.projects,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    notifications: state.firestore.ordered.notifications
 })
 
 export default compose(
     connect(mapStateToProps, {getProjects}),
     firestoreConnect([
-        { collection: 'projects'}
+        { collection: 'projects'},
+        { collection: 'notifications',  limit: 3}
     ])
 )(Dashboard);
