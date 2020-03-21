@@ -1,15 +1,18 @@
 // import { useFirestoreConnect } from 'react-redux-firebase'
 import firebase from '../config/fbConfig';
 
-export const createProject = (project) => async (dispatch) => {
+export const createProject = (project) => async (dispatch, getState) => {
     try {
         // const firestore = useFirestoreConnect();
 
+        const profile = getState().firebase.profile;
+        const authorId = getState().firebase.auth.uid; 
+
         await firebase.firestore().collection('projects').add({
             ...project,
-            authorFirstName: 'Neil',
-            authorLastName: 'Kapadia',
-            authorId: 12345,
+            authorFirstName: profile.firstName,
+            authorLastName: profile.lastName,
+            authorId: authorId,
             createdAt: new Date()
         });
 
